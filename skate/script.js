@@ -1,11 +1,30 @@
 import * as THREE from 'three';
 import Stats from 'three/addons/libs/stats.module.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { FBXLoader } from 'three/addons/loaders/FBXLoader.js';
 
 let container, stats, clock, model, modelOrbit;
 let camera, scene, renderer;
 let angularVelocity = 0;
 let velocity = 0;
+//for fbx
+let mixer;
+const STEPS_PER_FRAME = 5;
+const speedDelta = 0.005;
+
+const playerVelocity = new THREE.Vector3();
+
+const keyStates = {};
+
+document.addEventListener('keydown', (event)=>{
+  keyStates[event.code] = true;
+  console.log('Key down:', event.code);
+});
+
+document.addEventListener('keyup', (event)=>{
+  keyStates[event.code] = false;
+  console.log('Key up:', event.code);
+});
 
 init();
 animate();
@@ -50,10 +69,29 @@ function init() {
     model = gltf.scene;
     modelOrbit.add(model);
     modelOrbit.rotation.y = Math.PI / 2;
+    modelOrbit.position.z = -10;
   }, undefined, function (e) {
     console.error(e);
   });
 
+  // ---------- FBX Animation ----------
+  const fbxLoader = new FBXLoader();
+  fbxLoader.load('./skateboarding2.fbx', (object) => {
+  mixer = new THREE.AnimationMixer(object); // create mixer for the FBX model
+  model = object;
+  modelOrbit.add(model);
+  modelOrbit.rotation.y = Math.PI / 2;
+
+  // load animations from the FBX model
+  const clips = object.animations;
+  if (clips && clips.length) {
+    mixer.clipAction(clips[0]).play(); // play first animation
+  }
+  }, undefined, function (e) {
+  console.error(e);
+  });
+
+  // renderer
   renderer = new THREE.WebGLRenderer({ antialias: true });
   renderer.setPixelRatio(window.devicePixelRatio);
   renderer.setSize(window.innerWidth, window.innerHeight);
@@ -65,17 +103,44 @@ function init() {
   stats = new Stats();
   container.appendChild(stats.dom);
 
-  document.addEventListener("keydown", onDocumentKeyDown, false);
 }
 
 function onWindowResize() {
-  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.aspect = window.innerWidth / window.innerHeight; 
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
+
+// ---------- Sk8 Control ---------
+function controls(deltaTime) {
+  const rotationDelta = deltaTime * Math.PI; // rotation speed
+
+  if (keyStates['ArrowUp']) {
+    const skateDirection = new THREE.Vector3(0, 0, 1);
+    skateDirection.applyAxisAngle(new THREE.Vector3(0, 1, 0), modelOrbit.rotation.y);
+    playerVelocity.add(skateDirection.multiplyScalar(speedDelta));
+  }else {
+    playerVelocity.set(0, 0, 0);
+  }
+  
+  if (keyStates['ArrowLeft']) {
+    modelOrbit.rotation.y += rotationDelta;
+  }
+
+  if (keyStates['ArrowRight']) {
+    modelOrbit.rotation.y -= rotationDelta;
+  }
+}
+
 function animate() {
-  velocity *= 0.95;
+  const deltaTime = Math.min( 0.05, clock.getDelta() ) / STEPS_PER_FRAME;
+
+  for ( let i = 0; i < STEPS_PER_FRAME; i ++ ) {
+    controls( deltaTime );
+  }
+
+  velocity *= 1;
   angularVelocity *= 0.95;
 
   const dt = clock.getDelta();
@@ -91,41 +156,37 @@ function animate() {
 		direction.applyAxisAngle(new THREE.Vector3(0, 1, 0),
 			model.rotation.y);
 		direction.multiplyScalar(velocity * dt);
-		modelOrbit.position.add(direction);
+		modelOrbit.position.add(playerVelocity);
 
-		camera.position.set(modelOrbit.position.x, 8, modelOrbit.position.z);
-		direction = new THREE.Vector3(0, 0, 1);
-		direction.applyAxisAngle(new THREE.Vector3(0, 1, 0),
-			model.rotation.y);
-		direction.multiplyScalar(-20);
-		camera.position.add(direction);
-		camera.lookAt(modelOrbit.position.x, modelOrbit.position.y + 3, modelOrbit.position.z);
-		camera.updateProjectionMatrix();
+    const cameraDistance = 25;  // distance of the camera from the skateboard
+    const cameraHeight = 10;     // height of the camera relative to the ground
+
+
+    const targetRotation = modelOrbit.rotation.y;
+
+    // camera position depending on the rotation of the skate
+
+    const cameraPosition = new THREE.Vector3(
+      modelOrbit.position.x - cameraDistance * Math.sin(targetRotation),
+      modelOrbit.position.y + cameraHeight,
+      modelOrbit.position.z - cameraDistance * Math.cos(targetRotation)
+    );
+
+    camera.position.copy(cameraPosition);
+
+    // Turn the camera for follow the skate rotation
+    camera.rotation.set(0, targetRotation, 0);
+
+    camera.lookAt(modelOrbit.position.x, modelOrbit.position.y + 3, modelOrbit.position.z );
+    camera.updateProjectionMatrix();
 	}
+
+  // for fbx animation
+  if (mixer) {
+    mixer.update(dt); // person animation update
+  }
 
   requestAnimationFrame(animate);
   renderer.render(scene, camera);
   stats.update();
 }
-
-let arrowUpPressed = false;
-
-function onDocumentKeyDown(event) {
-  if (event.key === "ArrowUp") {
-    velocity +=1;
-    arrowUpPressed = true;
-  }
-  else if (event.key === "ArrowDown") {
-    velocity -= 1;
-  }
-  else if (event.key === "ArrowLeft") {
-    velocity += 1
-    angularVelocity += 0.0051;
-  }
-  else if (event.key === "ArrowRight") {
-    velocity += 1;
-    angularVelocity -= 0.0051;
-  }
-  console.log(event)
-}
-
