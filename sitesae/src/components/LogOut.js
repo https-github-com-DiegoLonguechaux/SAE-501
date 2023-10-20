@@ -14,7 +14,7 @@ const LogOut = () => {
 
                 <p className='text-black text-4xl text-center'>Do you really want to log out ?</p>
                 <div className='flex flex-row  gap-4'>
-                    <button type="submit" className="w-full bg-black text-white py-2 rounded-full mb-2">Yes</button>
+                    <button type="submit" className="w-full bg-black text-white py-2 rounded-full mb-2">Yess</button>
                     <button type="submit" className="w-full bg-black text-white py-2 rounded-full mb-2">Cancel</button>
                 </div>
             </div>

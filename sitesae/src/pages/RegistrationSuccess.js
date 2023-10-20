@@ -1,6 +1,7 @@
 import React from 'react';
 import Header from '../components/Header';
 import check from '../check.png';
+import { Link } from 'react-router-dom';
 
 const RegistrationSuccess = () => {
     return (
@@ -19,8 +20,9 @@ const RegistrationSuccess = () => {
                     <img src={check}></img>
                 </div>
                 <p className='text-black text-4xl text-center'>Account create with success !</p>
-
-                <button type="submit" className="w-full bg-black text-white py-2 rounded-full mb-2">Close</button>
+                <Link to="/game-page">
+                    <button type="submit" className="w-full bg-black text-white py-2 rounded-full mb-2">Close</button>
+                </Link>
             </div>
         </div>
     );

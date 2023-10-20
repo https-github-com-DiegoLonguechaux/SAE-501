@@ -14,7 +14,7 @@ function PageInfo() {
                 <div className="flex flex-col justify-between">
                     <p className='text-white text-2xl text-center'>Skateboarding, an emblematic sport of urban youth, is making its debut at the Paris Olympic Games in 2024, bringing a touch of creativity and daring to the competition. Skateboarders from around the world will come together to push the boundaries of the discipline, mixing technique, style and adrenaline in the Olympic spirit.</p>
                     <div className="flex justify-center">
-                        <Link to="/game-page">
+                        <Link to="/login-form">
                             <button className='bg-white px-12 py-4 text-2xl rounded-full'>Play</button>
                         </Link>
                     </div>

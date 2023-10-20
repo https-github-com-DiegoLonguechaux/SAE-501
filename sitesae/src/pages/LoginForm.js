@@ -1,5 +1,6 @@
 import React from 'react';
 import Header from '../components/Header';
+import { Link } from 'react-router-dom';
 
 const LoginForm = () => {
   return (
@@ -16,14 +17,16 @@ const LoginForm = () => {
             <label htmlFor="password" className="block text-gray-600 font-medium">Password</label>
             <input type="password" id="password" className="w-full p-2 border rounded" />
           </div>
-          <button
-            type="submit"
-            className="w-full bg-black text-white py-2 rounded hover:bg-yellow-500 hover:text-black mb-2"
-          >
-            Log In
-          </button>
+          <Link to="/game-page">
+            <button type="submit" className="w-full bg-black text-white py-2 rounded hover:bg-yellow-500 hover:text-black mb-2">Log In</button>
+          </Link>
         </form>
-        <p className="text-gray-600 text-center my-4">New member ? <a href="/inscription" className="text-yellow-500">Create an account</a></p>
+        <p className="text-gray-600 text-center my-4">
+          New member?{' '}
+          <Link to="/signup-form" className="text-yellow-500">
+            Create an account
+          </Link>
+        </p>
       </div>
     </div>
   );

@@ -1,5 +1,6 @@
 import React from 'react';
 import Header from '../components/Header';
+import { Link } from 'react-router-dom';
 
 const SignUpForm = () => {
   return (
@@ -32,12 +33,9 @@ const SignUpForm = () => {
             <label htmlFor="confirmPassword" className="block text-gray-600 font-medium">Confirm Password</label>
             <input type="password" id="confirmPassword" className="w-full p-2 border rounded" />
           </div>
-          <button
-            type="submit"
-            className="w-full bg-black text-white py-2 rounded hover:bg-yellow-500 hover:text-black mb-2"
-          >
-            Create an account
-          </button>
+          <Link to="/registration-success">
+            <button type="submit" className="w-full bg-black text-white py-2 rounded hover:bg-yellow-500 hover:text-black mb-2">Create an account</button>
+          </Link>
         </form>
       </div>
     </div>
