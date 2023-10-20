@@ -80,7 +80,7 @@ function init() {
   mixer = new THREE.AnimationMixer(object); // create mixer for the FBX model
   model = object;
   modelOrbit.add(model);
-  modelOrbit.rotation.y = Math.PI / 2;
+  modelOrbit.rotation.y = 0;
 
   // load animations from the FBX model
   const clips = object.animations;
