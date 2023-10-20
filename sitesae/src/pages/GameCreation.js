@@ -2,6 +2,7 @@ import React from 'react';
 import Header from '../components/Header';
 import createGame from '../createGame.png';
 import joinGame from '../joinGame.png';
+import { Link } from 'react-router-dom';
 
 const GameCreation = () => {
     return (
@@ -30,10 +31,12 @@ const GameCreation = () => {
                                 <option value="8">8</option>
                                 <option value="9">9</option>
                                 <option value="10">10</option>
-                                
+
                             </select>
                         </div>
-                        <button type="submit" className="w-full bg-black text-white py-2 rounded mb-2">Create Game</button>
+                        <Link to="/game-training">
+                            <button type="submit" className="w-full bg-black text-white py-2 rounded mb-2">Create Game</button>
+                        </Link>
                     </form>
                 </div>
             </div>
