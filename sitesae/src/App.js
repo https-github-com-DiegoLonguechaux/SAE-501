@@ -25,6 +25,7 @@ function App() {
         <Route path="/game-creation" element={<GameCreation />} />
         <Route path="/game-training" element={<MyThreeJSComponent />} />
         <Route path="/account" element={<AccountPage />} />
+        <Route exact path="/game" render={() => {window.location.href="game.html"}} />
       </Routes>
     </BrowserRouter>
   );

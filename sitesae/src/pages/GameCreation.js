@@ -34,9 +34,9 @@ const GameCreation = () => {
 
                             </select>
                         </div>
-                        <Link to="/game-training">
-                            <button type="submit" className="w-full bg-black text-white py-2 rounded mb-2">Create Game</button>
-                        </Link>
+                            <button type='submit' className="w-full bg-black text-white py-2 rounded mb-2">Create Game</button>
+                            <a href='/game.html'>Create Game</a>
+
                     </form>
                 </div>
             </div>
