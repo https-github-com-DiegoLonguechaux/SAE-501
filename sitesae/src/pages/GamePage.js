@@ -5,6 +5,9 @@ import joinGame from '../joinGame.png';
 import { Link } from 'react-router-dom';
 
 const GamePage = () => {
+  function redirectPage() {
+    window.location.href = 'http://127.0.0.1:5501/sitesae/public/game.html'
+  }
   return (
     <div>
       <Header></Header>
@@ -18,9 +21,9 @@ const GamePage = () => {
 
         <div className='relative'>
             <img src={joinGame} className='opacity-50 blur-sm'></img>
-            <Link to="/game">
-              <button className='bg-white rounded-full py-4 px-10 text-xl absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'> Join Game </button>
-            </Link>
+            
+              <button className='bg-white rounded-full py-4 px-10 text-xl absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2' onClick={redirectPage}> Join Game </button>
+            
         </div>
       </div>
     </div>

@@ -65,7 +65,7 @@ function init() {
   scene.add(modelOrbit);
 
   const loader = new GLTFLoader();
-  loader.load('../resources/skate.glb', function (gltf) {
+  loader.load('./skate.glb', function (gltf) {
     model = gltf.scene;
     modelOrbit.add(model);
     modelOrbit.rotation.y = Math.PI / 2;
@@ -76,7 +76,7 @@ function init() {
 
   // ---------- FBX Animation ----------
   const fbxLoader = new FBXLoader();
-  fbxLoader.load('../resources/skateboarding2.fbx', (object) => {
+  fbxLoader.load('./skateboarding2.fbx', (object) => {
   mixer = new THREE.AnimationMixer(object); // create mixer for the FBX model
   model = object;
   modelOrbit.add(model);
