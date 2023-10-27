@@ -9,7 +9,6 @@ var cubes = [];
 var crash = false;
 var id = 0;
 var crashId = " ";
-var gamePlay = true;
 var collisionTime = 2.0;
 var collisionCooldown = 0;
 var speedDisplay = document.getElementById("speedValue");
@@ -82,21 +81,19 @@ function update() {
     var delta = clock.getDelta();
     var moveDistance = 400 * delta;
 
-    if (gamePlay) {
-        if (keyboard.pressed("left") || keyboard.pressed("Q")) {
-            if (movingCube.position.x > -270)
-                movingCube.position.x -= moveDistance;
-        }
-        if (keyboard.pressed("right") || keyboard.pressed("D")) {
-            if (movingCube.position.x < 270)
-                movingCube.position.x += moveDistance;
-        }
-        if (keyboard.pressed("up") || keyboard.pressed("Z")) {
-            movingCube.position.z -= moveDistance;
-        }
-        if (keyboard.pressed("down") || keyboard.pressed("S")) {
-            movingCube.position.z += moveDistance;
-        }
+    if (keyboard.pressed("left") || keyboard.pressed("Q")) {
+        if (movingCube.position.x > -270)
+            movingCube.position.x -= moveDistance;
+    }
+    if (keyboard.pressed("right") || keyboard.pressed("D")) {
+        if (movingCube.position.x < 270)
+            movingCube.position.x += moveDistance;
+    }
+    if (keyboard.pressed("up") || keyboard.pressed("Z")) {
+        movingCube.position.z -= moveDistance;
+    }
+    if (keyboard.pressed("down") || keyboard.pressed("S")) {
+        movingCube.position.z += moveDistance;
     }
     
 
@@ -113,7 +110,7 @@ function update() {
         var collisionResults = ray.intersectObjects(collideMeshList);
         if (collisionResults.length > 0 && collisionResults[0].distance < directionVector.length()) {
             crash = true;
-            gamePlay = false;
+            moveDistance = moveDistance / 2;
             crashId = collisionResults[0].object.name;
             break;
         }
@@ -124,12 +121,10 @@ function update() {
         if (collisionCooldown <= 0) {
             movingCube.material.color.setHex(0x346386);
             movingCube.userData.originalSpeed = moveDistance; // Stocker la vitesse d'origine
-            moveDistance = moveDistance * 0.8; // Réduire la vitesse
+            moveDistance = moveDistance / 2; // Réduire la vitesse
             collisionCooldown = collisionTime;
         }
-        gamePlay = false;
     } else {
-        gamePlay = true;
         // movingCube.material.color.setHex(0xffffff);
         if (collisionCooldown > 0) {
             // Restaurer la vitesse d'origine après le temps de refroidissement
