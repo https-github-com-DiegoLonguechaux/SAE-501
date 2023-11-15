@@ -8,7 +8,7 @@ function Accueil() {
   return (
     <div className=''>
       <Header/>
-      <div className="flex flex-row justify-between mr-10 rounded rounded-tr-[216px] bg-white overflow-hidden shadow-xl">
+      <div className="flex flex-row justify-between mr-10 rounded rounded-tr-[216px] bg-white overflow-hidden shadow-2xl">
         
         <div className="flex flex-col py-4 pl-4 gap-5 mx-16">  
           <p className='flex justify-center items-center text-center font-face-gm font-bold uppercase text-7xl max-w-xl'>Skateboarding is coming to the Olympic Games!</p>

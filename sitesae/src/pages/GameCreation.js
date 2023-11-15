@@ -9,10 +9,10 @@ const GameCreation = () => {
         <div>
             <Header></Header>
             <div className='flex flex-row justify-center gap-20 mt-20'>
-                <div>
+                <div className='shadow-2xl'>
                     <img src={createGame}></img>
                 </div>
-                <div className="bg-white p-8 rounded-lg w-1/4 flex justify-center items-center">
+                <div className="bg-white p-8 rounded-lg shadow-2xl w-1/4 flex justify-center items-center">
                     <form>
                         <div className="mb-4">
                             <label htmlFor="email" className="block text-gray-600 font-medium">Game Name</label>

@@ -6,7 +6,7 @@ const LoginForm = () => {
   return (
     <div>
       <Header></Header>
-      <div className="bg-white p-8 rounded-lg shadow-md w-1/4 mx-auto mt-16">
+      <div className="bg-white p-8 rounded-lg shadow-2xl w-1/4 mx-auto mt-16">
         <h2 className="text-2xl font-semibold mb-4 text-center">Connexion</h2>
         <form>
           <div className="mb-4">
