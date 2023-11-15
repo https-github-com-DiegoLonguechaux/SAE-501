@@ -1,0 +1,91 @@
+
+    .fade {
+        opacity: 0;
+        animation: 6s ease-out 0 fadeInOut;
+        animation-iteration-count: infinite;
+    }
+
+    .fade.olympics .ring {
+        animation: 6s ease-out 0 ring;
+        animation-iteration-count: infinite;
+        stroke-dasharray: 66;
+    stroke-dashoffset: 66;
+    }
+
+    .fade.olympics .ring.blue {
+        animation-delay: 0;
+        transform: rotate(-90deg);
+    transform-origin: 44.9px 137.8px;
+    }
+
+    .fade.olympics .ring.black {
+        animation-delay: 0.05s;
+        transform: rotate(180deg);
+    transform-origin: 70px 137.8px;
+    }
+
+    .fade.olympics .ring.red {
+        animation-delay: 0.1s;
+        transform: rotate(180deg);
+    transform-origin: 95px 137.8px;
+    }
+
+    .fade.olympics .ring.yellow {
+        animation-delay: 0.15s;
+        transform: rotate(-90deg);
+    transform-origin: 57.3px 148.5px;
+    }
+
+    .fade.olympics .ring.green {
+        animation-delay: 0.2s;
+        transform: rotate(-90deg);
+    transform-origin: 82px 148.5px;
+    }
+
+    .fade.paralympics {
+        animation-delay: 3s;
+    }
+
+    .fade.paralympics .agitos {
+        animation: 6s ease-out 3s rotation;
+        animation-iteration-count: infinite;
+        transform-origin: center;
+    }
+
+    @keyframes fadeInOut {
+        0% { opacity: 0; transform: translateX(-20px); }
+        10%,50% { opacity: 1; transform: translateX(0); }
+        60% { opacity: 0; transform: translateX(20px) }
+    }
+
+    @keyframes ring {
+        0% { stroke-dashoffset: 66; }
+        5% { stroke-dashoffset: 132; }
+    49.9% { stroke-dasharray: 66; stroke-dashoffset: 132; }
+        50% { stroke-dasharray: 132; stroke-dashoffset: 66; }
+        60% { stroke-dashoffset: 132; }
+    }
+
+    @keyframes rotation {
+        0% { transform: rotate(10deg); }
+        20%, 50% { transform: rotate(0); }
+        60% { transform: rotate(-5deg); }
+    }
+
+.color .emblem path {
+    fill: #d7c378;
+}
+
+
+.fade.olympics .ring-mask {
+        animation: 6s ease-out 0 ring-mask;
+        animation-iteration-count: infinite;
+    opacity: 0;
+    }
+
+@keyframes ring-mask {
+    4% { opacity: 0; }
+    6% { opacity: 1; }
+    49% { opacity: 1; }
+    51% { opacity: 0; }
+}
