@@ -12,6 +12,8 @@ var crashId = " ";
 var collisionTime = 2.0;
 var collisionCooldown = 0;
 var speedDisplay = document.getElementById("speedValue");
+var speedReductionDuration = 3; // in seconds
+
 
 
 init();
@@ -74,7 +76,6 @@ function animate() {
     requestAnimationFrame(animate);
     update();
     renderer.render(scene, camera);
-
 }
 
 function update() {
@@ -120,8 +121,8 @@ function update() {
     if (crash) {
         if (collisionCooldown <= 0) {
             movingCube.material.color.setHex(0x346386);
-            movingCube.userData.originalSpeed = moveDistance; // Stocker la vitesse d'origine
-            moveDistance = moveDistance / 2; // Réduire la vitesse
+            movingCube.userData.originalSpeed = moveDistance; // Store the original speed
+            moveDistance = moveDistance / 2; // Reduce the speed
             collisionCooldown = collisionTime;
         }
     } else {
@@ -153,6 +154,8 @@ function update() {
             cubes[i].position.z += 10;
         }
     }
+
+    // movingCube.position.z -= moveDistance;
 }
 
 
