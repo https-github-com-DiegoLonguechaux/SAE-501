@@ -12,6 +12,12 @@ var crashId = " ";
 var collisionTime = 2.0;
 var collisionCooldown = 0;
 var speedDisplay = document.getElementById("speedValue");
+// var moveDistance = 400; // Vitesse initiale
+var speedIncreaseInterval = 10000; // Intervalle pour augmenter la vitesse (10 secondes)
+var speedIncreaseAmount = 2; // Incrément de vitesse réduit
+var lastSpeedIncreaseTime = Date.now();
+var scrollingSpeed = 10;
+var maxScrollingSpeed = 50; // Vitesse maximale
 
 
 init();
@@ -71,10 +77,34 @@ function init() {
 }
 
 function animate() {
+    if (crash) {
+        endGame();
+        return;
+    }
+
+    var currentTime = Date.now();
+    if (currentTime - lastSpeedIncreaseTime > speedIncreaseInterval && scrollingSpeed < maxScrollingSpeed) {
+        scrollingSpeed += speedIncreaseAmount; // Augmenter la vitesse de défilement
+        if (scrollingSpeed > maxScrollingSpeed) {
+            scrollingSpeed = maxScrollingSpeed; // Plafonner la vitesse à la valeur maximale
+        }
+        lastSpeedIncreaseTime = currentTime;
+        updateSpeedDisplay();
+    }
+
     requestAnimationFrame(animate);
     update();
     renderer.render(scene, camera);
+}
 
+function updateSpeedDisplay() {
+    var speedDisplay = document.getElementById("speedDisplay");
+    speedDisplay.textContent = "Vitesse: " + scrollingSpeed.toFixed(0);
+}
+
+function endGame() {
+    // Actions à effectuer lorsque le jeu est terminé
+    alert("GAME OVER");
 }
 
 function update() {
@@ -135,8 +165,10 @@ function update() {
             }
         }
     }
-
-    speedDisplay.textContent = "Vitesse : " + moveDistance.toFixed(2);
+    if (collisionResults.length > 0 && collisionResults[0].distance < directionVector.length()) {
+        crash = true;
+    }
+    // speedDisplay.textContent = "Vitesse : " + moveDistance.toFixed(2);
         
     
 
@@ -145,6 +177,7 @@ function update() {
     }
 
     for (i = 0; i < cubes.length; i++) {
+        cubes[i].position.z += scrollingSpeed;
         if (cubes[i].position.z > camera.position.z) {
             scene.remove(cubes[i]);
             cubes.splice(i, 1);
@@ -185,7 +218,7 @@ function makeRandomCube() {
 
     box.position.x = getRandomArbitrary(-250, 250);
     box.position.y = 1 + b / 2;
-    box.position.z = getRandomArbitrary(-800, -1200);
+    box.position.z = getRandomArbitrary(-2000, -2400);
     cubes.push(box);
     box.name = "box_" + id;
     id++;
