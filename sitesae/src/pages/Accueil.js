@@ -5,6 +5,7 @@ import skateImage from '../skate.png';
 import photoSkate from '../photo-skate2.jpg';
 
 function Accueil() {
+  
   return (
     <div className=''>
       <Header/>
@@ -25,9 +26,9 @@ function Accueil() {
         </div>
 
         <div className="flex justify-end items-end m-4">
-            <Link to="/login-form">
-                <button className='bg-black text-white px-12 py-2 text-2xl rounded-full'>Play</button>
-            </Link>
+            {/* <Link to="/game.html"> */}
+                <button className='bg-black text-white px-12 py-2 text-2xl border rounded-full'><a href="/game.html">Play</a></button>
+            {/* </Link> */}
         </div>
         
         <div className="flex justify-end items-center">

@@ -12,7 +12,7 @@ import LogOut from './components/LogOut';
 import AccountPage from './pages/AccountPage';
 import MyThreeJSComponent from './components/MyThreeJSComponent';
 import './fonts/paris-2024-font/Paris2024-Variable.ttf';
-//gggggg
+
 function App() {
   return (
     <BrowserRouter>

@@ -25,11 +25,22 @@
         }
 
     </style>
+    <script>
+         window.onload = function() {
+            // Vérifier si le token est présent dans le localStorage
+            var token = localStorage.getItem('userToken');
+            var email = localStorage.getItem('userEmail');
+
+            // Si le token n'est pas présent, rediriger vers la page de connexion
+            if (!token || !email) {
+                window.location.href = 'login-form';
+            }
+        }
+    </script>
 </head>
 <body>
-<div id="speedDisplay"><span id="speedValue">0</span></div>
-<div id="ThreeJS"></div>
-
-<script src="./js/index.js"></script>
+    <div id="speedDisplay"><span id="speedValue">0</span></div>
+    <div id="ThreeJS"></div>
+    <script src="./js/index.js"></script>
 </body>
 </html>

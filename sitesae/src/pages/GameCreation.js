@@ -2,7 +2,6 @@ import React from 'react';
 import Header from '../components/Header';
 import createGame from '../createGame.png';
 import joinGame from '../joinGame.png';
-import { Link } from 'react-router-dom';
 
 const GameCreation = () => {
     return (
