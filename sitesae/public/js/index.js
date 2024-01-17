@@ -14,10 +14,12 @@ var collisionCooldown = 0;
 var speedDisplay = document.getElementById("speedValue");
 // var moveDistance = 400; // Vitesse initiale
 var speedIncreaseInterval = 10000; // Intervalle pour augmenter la vitesse (10 secondes)
-var speedIncreaseAmount = 2; // Incrément de vitesse réduit
+var speedIncreaseAmount = 5; // Incrément de vitesse réduit
 var lastSpeedIncreaseTime = Date.now();
 var scrollingSpeed = 10;
-var maxScrollingSpeed = 50; // Vitesse maximale
+var maxScrollingSpeed = 70; // Vitesse maximale
+var startTime = Date.now(); // Début du jeu
+var elapsedTime = 0; // Durée écoulée
 
 
 init();
@@ -73,10 +75,11 @@ function init() {
     movingCube.position.set(0, 25, -20);
     scene.add(movingCube);
 
-
+    
 }
 
 function animate() {
+    updateTimerDisplay();
     if (crash) {
         endGame();
         return;
@@ -97,14 +100,68 @@ function animate() {
     renderer.render(scene, camera);
 }
 
+function updateTimerDisplay() {
+    elapsedTime = Date.now() - startTime;
+    var minutes = Math.floor(elapsedTime / 60000);
+    var seconds = ((elapsedTime % 60000) / 1000).toFixed(0);
+    var timeDisplay = document.getElementById("timeDisplay");
+    timeDisplay.textContent = "Time: " + minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
+}
+
 function updateSpeedDisplay() {
     var speedDisplay = document.getElementById("speedDisplay");
-    speedDisplay.textContent = "Vitesse: " + scrollingSpeed.toFixed(0);
+    speedDisplay.textContent = "Speed: " + scrollingSpeed.toFixed(0);
 }
 
 function endGame() {
     // Actions à effectuer lorsque le jeu est terminé
-    alert("GAME OVER");
+    // alert("GAME OVER. Time: " + formatElapsedTime(elapsedTime));
+
+    var finalTimeDisplay = document.getElementById("finalTime");
+    finalTimeDisplay.textContent = "Your time: " + formatElapsedTime(elapsedTime);
+
+    var gameOverPanel = document.getElementById("gameOverPanel");
+    gameOverPanel.style.display = "block"; // Afficher le panneau de fin de jeu
+}
+
+function restartGame() {
+    var gameOverPanel = document.getElementById("gameOverPanel");
+    gameOverPanel.style.display = "none"; // Masquer le panneau de fin de jeu
+
+    // Réinitialiser le jeu
+    crash = false;
+    elapsedTime = 0;
+    startTime = Date.now();
+    movingCube.position.set(0, 25, -20); // Réinitialiser la position du cube
+    scrollingSpeed = 10; // Réinitialiser la vitesse de défilement
+
+    // Nettoyer les objets de la scène (si nécessaire)
+    for (let i = cubes.length - 1; i >= 0; i--) {
+        scene.remove(cubes[i]);
+        cubes.splice(i, 1);
+        collideMeshList.splice(i, 1);
+    }
+
+    // Redémarrer la boucle de jeu (si elle a été arrêtée)
+    animate();
+}
+
+function formatElapsedTime(ms) {
+    var minutes = Math.floor(ms / 60000);
+    var seconds = ((ms % 60000) / 1000).toFixed(0);
+    return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
+}
+
+function exitGame() {
+    var gameCanvas = document.getElementById("ThreeJS");
+    gameCanvas.style.display = "none"; // Masquer le canvas du jeu
+
+    // Arrêter la boucle de jeu
+    crash = true; // Supposant que cela arrête la boucle de jeu
+
+    // Optionnel : Afficher un message ou rediriger l'utilisateur
+    alert("You have exited the game.");
+    window.location.href = "/"; // Rediriger vers page d'accueil
 }
 
 function update() {
@@ -167,6 +224,10 @@ function update() {
     }
     if (collisionResults.length > 0 && collisionResults[0].distance < directionVector.length()) {
         crash = true;
+
+        elapsedTime = Date.now() - startTime; // Mettre à jour une dernière fois avant l'arrêt
+        updateTimerDisplay(); // Mise à jour finale de l'affichage
+        return; 
     }
     // speedDisplay.textContent = "Vitesse : " + moveDistance.toFixed(2);
         

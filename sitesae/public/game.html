@@ -24,6 +24,41 @@
             color: #ffffff;
         }
 
+        .header-game {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .btn-exit {
+            background-color: #ffffff;
+            color: #000000;
+            border-radius: 10px;
+            padding: .5rem 1rem .5rem 1rem;
+            cursor: pointer;
+        }
+        
+        .game-over {
+            display: none; 
+            position: absolute; 
+            top: 50%; 
+            left: 50%; 
+            transform: translate(-50%, -50%); 
+            background-color: white; 
+            color: black; 
+            padding: 20px; 
+            border-radius: 10px; 
+            text-align: center;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+
+        .btn-game {
+            background-color: #000000;
+            color: #ffffff;
+            padding: .5rem 1rem .5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
     </style>
     <script>
          window.onload = function() {
@@ -39,8 +74,18 @@
     </script>
 </head>
 <body>
-    <div id="speedDisplay"><span id="speedValue">Speed: 10</span></div>
-    <div id="timeDisplay">Game Time: 0</div>
+    <div class="header-game">
+        <div>
+            <div id="speedDisplay"><span id="speedValue">Speed: 10</span></div>
+            <div id="timeDisplay">Time: 0</div>
+        </div>
+        <button id="exitButton" onclick="exitGame()" class="btn-exit">Exit game</button>
+    </div>
+    <div id="gameOverPanel" class="game-over">
+        <h1>Game Over</h1>
+        <p id="finalTime">Your time: 00:00</p>
+        <button onclick="restartGame()" class="btn-game">Restart</button>
+    </div>
     <div id="ThreeJS"></div>
     <script src="./js/index.js"></script>
 </body>
