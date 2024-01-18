@@ -12,7 +12,6 @@ var crashId = " ";
 var collisionTime = 2.0;
 var collisionCooldown = 0;
 var speedDisplay = document.getElementById("speedValue");
-// var moveDistance = 400; // Vitesse initiale
 var speedIncreaseInterval = 10000; // Intervalle pour augmenter la vitesse (10 secondes)
 var speedIncreaseAmount = 5; // Incrément de vitesse réduit
 var lastSpeedIncreaseTime = Date.now();
@@ -70,7 +69,7 @@ function init() {
         wireframe: true
     });
 
-
+    // création du cube en mouvement
     movingCube = new THREE.Mesh(cubeGeometry, wireMaterial);
     movingCube.position.set(0, 25, -20);
     scene.add(movingCube);
@@ -78,13 +77,17 @@ function init() {
     
 }
 
+
 function animate() {
+
+    // mise à jour affichage temps
     updateTimerDisplay();
     if (crash) {
         endGame();
         return;
     }
 
+    // mise à jour affichage vitesse
     var currentTime = Date.now();
     if (currentTime - lastSpeedIncreaseTime > speedIncreaseInterval && scrollingSpeed < maxScrollingSpeed) {
         scrollingSpeed += speedIncreaseAmount; // Augmenter la vitesse de défilement
@@ -95,11 +98,13 @@ function animate() {
         updateSpeedDisplay();
     }
 
+    // Mise à jour de la scène
     requestAnimationFrame(animate);
     update();
     renderer.render(scene, camera);
 }
 
+// affichage temps
 function updateTimerDisplay() {
     elapsedTime = Date.now() - startTime;
     var minutes = Math.floor(elapsedTime / 60000);
@@ -108,22 +113,24 @@ function updateTimerDisplay() {
     timeDisplay.textContent = "Time: " + minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
 }
 
+// affichage vitesse
 function updateSpeedDisplay() {
     var speedDisplay = document.getElementById("speedDisplay");
     speedDisplay.textContent = "Speed: " + scrollingSpeed.toFixed(0);
 }
 
+// fin du jeu
 function endGame() {
     // Actions à effectuer lorsque le jeu est terminé
-    // alert("GAME OVER. Time: " + formatElapsedTime(elapsedTime));
 
     var finalTimeDisplay = document.getElementById("finalTime");
-    finalTimeDisplay.textContent = "Your time: " + formatElapsedTime(elapsedTime);
+    finalTimeDisplay.textContent = "Your time: " + formatElapsedTime(elapsedTime); // Afficher la durée de la partie
 
     var gameOverPanel = document.getElementById("gameOverPanel");
     gameOverPanel.style.display = "block"; // Afficher le panneau de fin de jeu
 }
 
+// Restart le jeu
 function restartGame() {
     var gameOverPanel = document.getElementById("gameOverPanel");
     gameOverPanel.style.display = "none"; // Masquer le panneau de fin de jeu
@@ -135,23 +142,25 @@ function restartGame() {
     movingCube.position.set(0, 25, -20); // Réinitialiser la position du cube
     scrollingSpeed = 10; // Réinitialiser la vitesse de défilement
 
-    // Nettoyer les objets de la scène (si nécessaire)
+    // Nettoyer les objets de la scène
     for (let i = cubes.length - 1; i >= 0; i--) {
         scene.remove(cubes[i]);
         cubes.splice(i, 1);
         collideMeshList.splice(i, 1);
     }
 
-    // Redémarrer la boucle de jeu (si elle a été arrêtée)
+    // Redémarrer la boucle de jeu
     animate();
 }
 
+// formatage du temps en minutes et secondes
 function formatElapsedTime(ms) {
     var minutes = Math.floor(ms / 60000);
     var seconds = ((ms % 60000) / 1000).toFixed(0);
     return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
 }
 
+// quitter le jeu
 function exitGame() {
     var gameCanvas = document.getElementById("ThreeJS");
     gameCanvas.style.display = "none"; // Masquer le canvas du jeu
@@ -164,10 +173,12 @@ function exitGame() {
     window.location.href = "/"; // Rediriger vers page d'accueil
 }
 
+
 function update() {
     var delta = clock.getDelta();
     var moveDistance = 400 * delta;
 
+    // gérer les mouvements du cube à controler
     if (keyboard.pressed("left") || keyboard.pressed("Q")) {
         if (movingCube.position.x > -270)
             movingCube.position.x -= moveDistance;
@@ -204,6 +215,7 @@ function update() {
         crash = false;
     }
 
+    // gestion des collisions
     if (crash) {
         if (collisionCooldown <= 0) {
             movingCube.material.color.setHex(0x346386);
@@ -222,6 +234,8 @@ function update() {
             }
         }
     }
+
+    // condition collision -> fin de la partie
     if (collisionResults.length > 0 && collisionResults[0].distance < directionVector.length()) {
         crash = true;
 
@@ -229,10 +243,9 @@ function update() {
         updateTimerDisplay(); // Mise à jour finale de l'affichage
         return; 
     }
-    // speedDisplay.textContent = "Vitesse : " + moveDistance.toFixed(2);
         
     
-
+    // génération des obsatcles
     if (Math.random() < 0.03 && cubes.length < 30) {
         makeRandomCube();
     }
@@ -260,7 +273,7 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-
+// fait les obstacles de façon random
 function makeRandomCube() {
     var a = 1 * 50,
         b = getRandomInt(1, 3) * 50,
