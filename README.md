@@ -15,4 +15,4 @@ https://skate.mmi-limoges.fr
 Lien vers le site back-end hébergé, contenant l'API et l'interface administrateur
 https://mmi21-02.mmi-limoges.fr/api
 
-Ici le dossier BDD-SAE corresppond à toute la partie back-end du site (l'API, l'interface administrateur)
+Ici le dossier BDD-SAE corresppond à toute la partie back-end du site contenant donc l'API et l'interface administrateur.
