@@ -16,3 +16,5 @@ Lien vers le site back-end hébergé, contenant l'API et l'interface administrat
 https://mmi21-02.mmi-limoges.fr/api
 
 Ici le dossier sitesae corresppond à toute la partie front-end du site (le jeu "Skate runner", l'interface de connexion/création de compte)
+Il y a donc dans ce dossier tout le site front développé avec React, et dans le dossier public, il y a une page "game.html" qui est relié à des fichier JS situés dans le dossier "JS", ce qui correspond au jeu.
+Dans les fichiers LoginForm.js et SignUpForm.js qui se trouvent dans src>pages, c'est ici qu'il y a les "fetch" qui permettent de communiquer avec l'API.
